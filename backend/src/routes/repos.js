@@ -9,7 +9,8 @@ function computeDaysUntilDeletion(row) {
 }
 
 function formatRepo(row) {
-  return { ...row, days_until_deletion: computeDaysUntilDeletion(row) };
+  const { scraped_at, is_today, ...rest } = row;
+  return { ...rest, days_until_deletion: computeDaysUntilDeletion(row) };
 }
 
 function getRepos(req, res) {

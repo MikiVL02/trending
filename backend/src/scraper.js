@@ -89,13 +89,14 @@ function extractFeaturesSection(readme, description) {
     if (result && result.length > 20) return result;
   }
 
-  // 兜底：取README正文第一段有意义的文字（跳过徽章行）
+  // 兜底：取README正文第一段有意义的文字（跳过徽章行和分隔线）
   const lines = readme.split('\n');
   const paragraphs = [];
   for (const line of lines) {
     const trimmed = line.trim();
     if (!trimmed || trimmed.startsWith('#') || trimmed.startsWith('!') || trimmed.startsWith('[!') || trimmed.startsWith('<')) continue;
     if (trimmed.startsWith('[![') || trimmed.match(/^\[!\[/)) continue;
+    if (/^[-=]{3,}$/.test(trimmed)) continue;
     if (trimmed.length > 40) paragraphs.push(trimmed);
     if (paragraphs.length >= 3) break;
   }
