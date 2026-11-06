@@ -47,9 +47,17 @@ export default function App() {
       <header className="sticky top-0 z-20 backdrop-blur-xl" style={{ borderBottom: '1px solid var(--border)', background: 'rgba(6,8,16,0.85)' }}>
         <div className="max-w-5xl mx-auto px-5 py-3.5 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center text-base flex-shrink-0"
-              style={{ background: 'linear-gradient(135deg, rgba(0,229,160,0.2), rgba(0,229,160,0.05))', border: '1px solid rgba(0,229,160,0.25)' }}>
-              🔥
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+              style={{ background: 'linear-gradient(135deg, rgba(0,229,160,0.15), rgba(0,229,160,0.04))', border: '1px solid rgba(0,229,160,0.2)' }}>
+              <svg width="20" height="20" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="18" cy="6" r="3.5" stroke="#4ade80" strokeWidth="1.4" />
+                <circle cx="7" cy="24" r="3.5" stroke="#4ade80" strokeWidth="1.4" />
+                <circle cx="29" cy="24" r="3.5" stroke="#4ade80" strokeWidth="1.4" />
+                <path d="M18 9.5v6M18 15.5l-7.5 5M18 15.5l7.5 5" stroke="#4ade80" strokeWidth="1.3" strokeLinecap="round" />
+                <path d="M24 20l4 3" stroke="#4ade80" strokeWidth="1.3" strokeLinecap="round" />
+                <path d="M12 20l-4 3" stroke="#4ade80" strokeWidth="1.3" strokeLinecap="round" />
+                <polyline points="6,31 10,27 14,29 20,23 26,26 30,21" stroke="#4ade80" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.5" />
+              </svg>
             </div>
             <div>
               <h1 className="text-sm font-bold tracking-tight" style={{ color: 'var(--text-1)' }}>
