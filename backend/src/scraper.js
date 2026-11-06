@@ -15,15 +15,32 @@ function buildHeaders() {
 }
 
 async function fetchTrending() {
-  const res = await axios.get(TRENDING_URL, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      'Accept-Language': 'en-US,en;q=0.5',
-    },
-    timeout: 30000,
-  });
-  const $ = cheerio.load(res.data);
+  const MAX_ATTEMPTS = 3;
+  let lastErr;
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
+    try {
+      const res = await axios.get(TRENDING_URL, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate, br',
+        },
+        timeout: 90000,
+      });
+      if (attempt > 1) console.log('[scraper] trending fetch ok on attempt ' + attempt);
+      return parseTrending(res.data);
+    } catch (err) {
+      lastErr = err;
+      console.log('[scraper] trending fetch attempt ' + attempt + '/' + MAX_ATTEMPTS + ' failed: ' + err.message);
+      if (attempt < MAX_ATTEMPTS) await new Promise(function (r) { setTimeout(r, attempt * 2000); });
+    }
+  }
+  throw lastErr;
+}
+
+function parseTrending(html) {
+  const $ = cheerio.load(html);
   const repos = [];
 
   $('article.Box-row').slice(0, 10).each((_, el) => {
